@@ -75,6 +75,15 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	private $settings;
 
 	/**
+	 * Caches labels that are retrieved from the database.
+	 *
+	 * @var array {
+	 *      @type $option_name string Full text for the altered label
+	 * }
+	 */
+	protected $label_cache = [];
+
+	/**
 	 * Setup the Extension's properties.
 	 *
 	 * This always executes even if the required plugins are not present.
@@ -104,7 +113,23 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Start binds.
 
+		// Events.
+		add_filter( 'tribe_event_label_singular', [ $this, 'get_event_single' ] );
+		add_filter( 'tribe_event_label_singular_lowercase', [ $this, 'get_event_single_lowercase' ] );
+		add_filter( 'tribe_event_label_plural', [ $this, 'get_event_plural' ] );
+		add_filter( 'tribe_event_label_plural_lowercase', [ $this, 'get_event_plural_lowercase' ] );
 
+		// Venues.
+		add_filter( 'tribe_venue_label_singular', [ $this, 'get_venue_single' ] );
+		add_filter( 'tribe_venue_label_singular_lowercase', [ $this, 'get_venue_single_lowercase' ] );
+		add_filter( 'tribe_venue_label_plural', [ $this, 'get_venue_plural' ] );
+		add_filter( 'tribe_venue_label_plural_lowercase', [ $this, 'get_venue_plural_lowercase' ] );
+
+		// Organizers.
+		add_filter( 'tribe_organizer_label_singular', [ $this, 'get_organizer_single' ] );
+		add_filter( 'tribe_organizer_label_singular_lowercase', [ $this, 'get_organizer_single_lowercase' ] );
+		add_filter( 'tribe_organizer_label_plural', [ $this, 'get_organizer_plural' ] );
+		add_filter( 'tribe_organizer_label_plural_lowercase', [ $this, 'get_organizer_plural_lowercase' ] );
 
 		// End binds.
 
@@ -195,5 +220,156 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$settings = $this->get_settings();
 
 		return $settings->get_option( $option, $default );
+	}
+
+	/**
+	 * Gets the label from the database and caches it
+	 *
+	 * @param $key     string Option key for the label.
+	 * @param $default string Value to return if none set.
+	 *
+	 * @return string|null
+	 */
+	public function get_label( $key, $default = null ) {
+
+		$key = $this->get_options_prefix() . "_" . $key;
+
+		if ( ! isset( $this->label_cache[ $key ] ) ) {
+			$this->label_cache[ $key ] = tribe_get_option( $key, $default );
+		}
+
+		return $this->label_cache[ $key ];
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_event_single( $label ) {
+		return $this->get_label( 'label_event_single', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_event_single_lowercase( $label ) {
+		return $this->get_label( 'label_event_single_lowercase', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_event_plural( $label ) {
+		return $this->get_label( 'label_event_plural', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_event_plural_lowercase( $label ) {
+		return $this->get_label( 'label_event_plural_lowercase', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_venue_single( $label ) {
+		return $this->get_label( 'label_venue_single', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_venue_single_lowercase( $label ) {
+		return $this->get_label( 'label_venue_single_lowercase', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_venue_plural( $label ) {
+		return $this->get_label( 'label_venue_plural', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_venue_plural_lowercase( $label ) {
+		return $this->get_label( 'label_venue_plural_lowercase', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_organizer_single( $label ) {
+		return $this->get_label( 'label_organizer_single', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_organizer_single_lowercase( $label ) {
+		return $this->get_label( 'label_organizer_single_lowercase', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_organizer_plural( $label ) {
+		return $this->get_label( 'label_organizer_plural', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_organizer_plural_lowercase( $label ) {
+		return $this->get_label( 'label_organizer_plural_lowercase',  $label );
 	}
 }
