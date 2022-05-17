@@ -42,7 +42,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 *
 	 * @var string
 	 */
-	const FILE = TRIBE_EXTENSION_RELABELER_FILE;
+	const FILE = TEC_LABS_RELABELER_FILE;
 
 	/**
 	 * @since 1.0.0
@@ -150,7 +150,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 * TODO: Remove if not using settings
 	 */
 	private function get_options_prefix() {
-		return (string) str_replace( '-', '_', 'tribe-ext-relabeler' );
+		return (string) str_replace( '-', '_', 'tec-labs-relabeler' );
 	}
 
 	/**
