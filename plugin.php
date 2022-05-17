@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name:       The Events Calendar Extension: relabeler
- * Plugin URI:        
- * GitHub Plugin URI: https://github.com/mt-support/tec-labs-relabeler
- * Description:       
- * Version:           1.0.0
+ * Plugin Name:       The Events Calendar Extension: Relabeler
+ * Plugin URI:        https://theeventscalendar.com/extensions/change-labels-events-venues-organizers/
+ * GitHub Plugin URI: https://github.com/mt-support/tec-labs-relabeler/
+ * Description:       Adds option to WP Admin > Events > Relabeler for altering labels. For example, you can change the word "Events" to a different word such as "Gigs".
+ * Version:           2.0.0
  * Author:            The Events Calendar
  * Author URI:        https://evnt.is/1971
  * License:           GPL version 3 or any later version
