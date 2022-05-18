@@ -117,6 +117,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		// Views
 		add_filter( 'tribe-events-bar-views', [ $this, 'rename_views_in_selector' ], 100 );
 		add_filter( 'tribe_template_path_list', [ $this, 'alternative_template_locations' ], 10, 2 );
+		add_filter( 'tribe_events_rewrite_base_slugs', [ $this, 'rename_event_view_slugs' ], 100 );
 
 		// Events.
 		add_filter( 'tribe_event_label_singular', [ $this, 'get_event_single' ] );
@@ -522,5 +523,53 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		];
 
 		return $folders;
+	}
+
+	/**
+	 * Override the view slugs
+	 *
+	 * @param $bases
+	 *
+	 * @return mixed
+	 */
+	function rename_event_view_slugs( $bases ) {
+
+		if ( ! $this->get_option( 'rewrite_view_slugs' ) ) {
+			return $bases;
+		}
+
+		$views = [ 'list', 'month', 'day', 'week', 'map', 'photo', 'summary' ];
+
+		$list    = strtolower( $this->get_list_view_label( 'List' ) );
+		$month   = strtolower( $this->get_month_view_label( 'Month' ) );
+		$day     = strtolower( $this->get_day_view_label( 'Day' ) );
+		$week    = strtolower( $this->get_week_view_label( 'Week' ) );
+		$map     = strtolower( $this->get_map_view_label( 'Map' ) );
+		$photo   = strtolower( $this->get_photo_view_label( 'Photo' ) );
+		$summary = strtolower( $this->get_summary_view_label( 'Summary' ) );
+		
+		if ( isset( $bases['month'] ) ) {
+			$bases['month'] = [ $month, $month ];
+		}
+		if ( isset( $bases['list'] ) ) {
+			$bases['list'] = [ $list, $list ];
+		}
+		if ( isset( $bases['day'] ) ) {
+			$bases['day'] = [ $day, $day ];
+		}
+		if ( isset( $bases['week'] ) ) {
+			$bases['week'] = [ $week, $week ];
+		}
+		if ( isset( $bases['photo'] ) ) {
+			$bases['photo'] = [ $photo, $photo ];
+		}
+		if ( isset( $bases['map'] ) ) {
+			$bases['map'] = [ $map, $map ];
+		}
+		if ( isset( $bases['summary'] ) ) {
+			$bases['summary'] = [ $summary, $summary ];
+		}
+
+		return $bases;
 	}
 }
