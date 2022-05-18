@@ -227,29 +227,29 @@ class Settings {
 	 */
 	public function add_settings() {
 		$fields = [
-			'views_heading'     => [
+			'views_heading'      => [
 				'type' => 'html',
 				'html' => '<h3>' . esc_html__( 'Views', 'tec-labs-relabeler' ) . '</h3>',
 			],
-			'views_helper_text' => [
+			'views_helper_text'  => [
 				'type' => 'html',
 				'html' => '<p>' . esc_html__( 'The following fields allow you to change the default names of the views. Inputting something other than the default will change that word everywhere it appears.', 'tec-labs-relabeler' ) . '</p>',
 			],
-			'label_list_view'   => [
+			'label_list_view'  => [
 				'type'            => 'text',
 				'label'           => esc_html__( 'List view', 'the-events-calendar' ),
 				'default'         => esc_attr__( 'List', 'the-events-calendar' ),
 				'tooltip'         => esc_html__( 'Label for list view.', 'tec-labs-relabeler' ),
 				'validation_type' => 'html',
 			],
-			'label_month_view'  => [
+			'label_month_view' => [
 				'type'            => 'text',
 				'label'           => esc_html__( 'Month view', 'the-events-calendar' ),
 				'default'         => esc_attr__( 'Month', 'the-events-calendar' ),
 				'tooltip'         => esc_html__( 'Label for month view.', 'tec-labs-relabeler' ),
 				'validation_type' => 'html',
 			],
-			'label_day_view'    => [
+			'label_day_view'   => [
 				'type'            => 'text',
 				'label'           => esc_html__( 'Day view', 'the-events-calendar' ),
 				'default'         => esc_attr__( 'Day', 'the-events-calendar' ),
@@ -258,36 +258,46 @@ class Settings {
 			],
 		];
 
-			$fields_ecp_views = [
-				'label_week_view'    => [
-					'type'            => 'text',
-					'label'           => esc_html__( 'Week view', 'the-events-calendar' ),
-					'default'         => esc_attr__( 'Week', 'the-events-calendar' ),
-					'tooltip'         => esc_html__( 'Label for week view.', 'tec-labs-relabeler' ),
-					'validation_type' => 'html',
-				],
-				'label_map_view'     => [
-					'type'            => 'text',
-					'label'           => esc_html__( 'Map view', 'the-events-calendar' ),
-					'default'         => esc_attr__( 'Map', 'the-events-calendar' ),
-					'tooltip'         => esc_html__( 'Label for map view.', 'tec-labs-relabeler' ),
-					'validation_type' => 'html',
-				],
-				'label_photo_view'   => [
-					'type'            => 'text',
-					'label'           => esc_html__( 'Photo view', 'the-events-calendar' ),
-					'default'         => esc_attr__( 'Photo', 'the-events-calendar' ),
-					'tooltip'         => esc_html__( 'Label for photo view.', 'tec-labs-relabeler' ),
-					'validation_type' => 'html',
-				],
-				'label_summary_view' => [
-					'type'            => 'text',
-					'label'           => esc_html__( 'Summary view', 'the-events-calendar' ),
-					'default'         => esc_attr__( 'Summary', 'the-events-calendar' ),
-					'tooltip'         => esc_html__( 'Label for summary view.', 'tec-labs-relabeler' ),
-					'validation_type' => 'html',
-				],
-			];
+		$fields_ecp_views = [
+			'label_week_view'    => [
+				'type'            => 'text',
+				'label'           => esc_html__( 'Week view', 'the-events-calendar' ),
+				'default'         => esc_attr__( 'Week', 'the-events-calendar' ),
+				'tooltip'         => esc_html__( 'Label for week view.', 'tec-labs-relabeler' ),
+				'validation_type' => 'html',
+			],
+			'label_map_view'     => [
+				'type'            => 'text',
+				'label'           => esc_html__( 'Map view', 'the-events-calendar' ),
+				'default'         => esc_attr__( 'Map', 'the-events-calendar' ),
+				'tooltip'         => esc_html__( 'Label for map view.', 'tec-labs-relabeler' ),
+				'validation_type' => 'html',
+			],
+			'label_photo_view'   => [
+				'type'            => 'text',
+				'label'           => esc_html__( 'Photo view', 'the-events-calendar' ),
+				'default'         => esc_attr__( 'Photo', 'the-events-calendar' ),
+				'tooltip'         => esc_html__( 'Label for photo view.', 'tec-labs-relabeler' ),
+				'validation_type' => 'html',
+			],
+			'label_summary_view' => [
+				'type'            => 'text',
+				'label'           => esc_html__( 'Summary view', 'the-events-calendar' ),
+				'default'         => esc_attr__( 'Summary', 'the-events-calendar' ),
+				'tooltip'         => esc_html__( 'Label for summary view.', 'tec-labs-relabeler' ),
+				'validation_type' => 'html',
+			],
+		];
+
+		$fields_rewrite = [
+			'rewrite_view_slugs' => [
+				'type'            => 'checkbox_bool',
+				'label'           => esc_html__( 'Re-write view slugs', 'tec-labs-relabeler' ),
+				'tooltip'         => esc_html__( 'When enabled the slugs of the views will be also changed (with the exception of Map view). You will need to flush permalinks after changing this setting.', 'tec-labs-relabeler' ),
+				'validation_type' => 'boolean',
+				'default'         => false,
+			],
+		];
 
 		$fields_labels = [
 			'labels_heading'                   => [
@@ -394,7 +404,7 @@ class Settings {
 			$fields = array_merge( $fields, $fields_ecp_views );
 		}
 
-		$fields = array_merge( $fields, $fields_labels );
+		$fields = array_merge( $fields, $fields_rewrite, $fields_labels );
 
 		$this->settings_helper->add_fields(
 			$this->prefix_settings_field_keys( $fields ),
