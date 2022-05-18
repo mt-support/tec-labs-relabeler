@@ -113,8 +113,10 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Start binds.
 
+
 		// Views
 		add_filter( 'tribe-events-bar-views', [ $this, 'rename_views_in_selector' ], 100 );
+		add_filter( 'tribe_template_path_list', [ $this, 'alternative_template_locations' ], 10, 2 );
 
 		// Events.
 		add_filter( 'tribe_event_label_singular', [ $this, 'get_event_single' ] );
@@ -417,7 +419,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	 * @return string
 	 */
 	public function get_week_view_label( $label ) {
-		return $this->get_label( 'label_week_View', $label );
+		return $this->get_label( 'label_week_view', $label );
 	}
 
 	/**
@@ -478,5 +480,47 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Return our revised list
 		return $views;
+	}
+
+
+	/**
+	 * Set up the template override folder for the extension.
+	 *
+	 * @param                  $folders
+	 * @param \Tribe__Template $template
+	 *
+	 * @return mixed
+	 */
+	function alternative_template_locations( $folders, \Tribe__Template $template ) {
+		// Which file namespace your plugin will use.
+		$plugin_name = 'tec-labs-relabeler';
+
+		/**
+		 * Which order we should load your plugin files at. Plugin in which the file was loaded from = 20.
+		 * Events Pro = 25. Tickets = 17
+		 */
+		$priority = 5;
+
+		// Which folder in your plugin the customizations will be loaded from.
+		$custom_folder[] = 'template-override';
+
+		// Builds the correct file path to look for.
+		$plugin_path = array_merge(
+			(array) trailingslashit( plugin_dir_path( __FILE__ ) ),
+			(array) $custom_folder,
+			array_diff( $template->get_template_folder(), [ 'src', 'views' ] )
+		);
+
+		/*
+		 * Custom loading location for overwriting file loading.
+		 */
+		$folders[ $plugin_name ] = [
+			'id'        => $plugin_name,
+			'namespace' => $plugin_name, // Only set this if you want to overwrite theme namespacing
+			'priority'  => $priority,
+			'path'      => $plugin_path,
+		];
+
+		return $folders;
 	}
 }
