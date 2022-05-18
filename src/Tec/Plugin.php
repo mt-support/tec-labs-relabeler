@@ -372,4 +372,82 @@ class Plugin extends \tad_DI52_ServiceProvider {
 	public function get_organizer_plural_lowercase( $label ) {
 		return $this->get_label( 'label_organizer_plural_lowercase',  $label );
 	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_list_view_label( $label ) {
+		return $this->get_label( 'label_list_view', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_month_view_label( $label ) {
+		return $this->get_label( 'label_month_view', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_day_view_label( $label ) {
+		return $this->get_label( 'label_day_view', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_week_view_label( $label ) {
+		return $this->get_label( 'label_week_View', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_map_view_label( $label ) {
+		return $this->get_label( 'label_map_view', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_photo_view_label( $label ) {
+		return $this->get_label( 'label_photo_view', $label );
+	}
+
+	/**
+	 * Gets the label
+	 *
+	 * @param $label string
+	 *
+	 * @return string
+	 */
+	public function get_summary_view_label( $label ) {
+		return $this->get_label( 'label_summary_view', $label );
+	}
+
 }
