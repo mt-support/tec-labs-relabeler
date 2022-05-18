@@ -113,6 +113,9 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Start binds.
 
+		// Views
+		add_filter( 'tribe-events-bar-views', [ $this, 'rename_tribe_views_in_selector' ], 100 );
+
 		// Events.
 		add_filter( 'tribe_event_label_singular', [ $this, 'get_event_single' ] );
 		add_filter( 'tribe_event_label_singular_lowercase', [ $this, 'get_event_single_lowercase' ] );
@@ -450,4 +453,30 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		return $this->get_label( 'label_summary_view', $label );
 	}
 
+	/**
+	 * @param $views
+	 *
+	 * @return mixed
+	 */
+	function rename_views_in_selector( $views ) {
+		// This lists the original view names you wish to change along
+		// with the substitutes you wish to use in their place
+		$to_change = [
+			'List'    => $this->get_list_view_label(),
+			'Month'   => $this->get_month_view_label(),
+			'Day'     => $this->get_day_view_label(),
+			'Week'    => $this->get_week_view_label(),
+			'Map'     => $this->get_map_view_label(),
+			'Photo'   => $this->get_photo_view_label(),
+			'Summary' => $this->get_summary_view_label(),
+		];
+
+		// Look through the list of active views and modify names accordingly
+		foreach ( $views as &$view )
+			if ( isset( $to_change[ $view['anchor'] ] ) )
+				$view['anchor'] = $to_change[ $view['anchor'] ];
+
+		// Return our revised list
+		return $views;
+	}
 }
